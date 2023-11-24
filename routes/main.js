@@ -8,7 +8,11 @@ module.exports = function(app, shopData) {
             if (err) {
                 res.redirect('./'); 
             }
-            res.send(result)
+            // res.send(result)
+            let newData = Object.assign({}, shopData, {availableBooks:result});
+            console.log(newData)
+            res.render("list.ejs", newData)
+  
          });
     });
     app.get('/',function(req,res){
