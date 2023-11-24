@@ -9,11 +9,9 @@
     <p>Here are the books we sell</p>
 
     <ul>
-        <% for avaliableBooks.forEach(function(book){%>
-            <li><%= book.name%></li>
-            <li><%= book.price %></li>
+        <% for (let book of availableBooks){%>
+            <li><%= book.name%> - <%= book.price %></li>
             <% } %>
-        )
     </ul>
   </body>
 </html>
