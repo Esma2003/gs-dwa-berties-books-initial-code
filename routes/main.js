@@ -12,7 +12,19 @@ module.exports = function(app, shopData) {
             let newData = Object.assign({}, shopData, {availableBooks:result});
             console.log(newData)
             res.render("list.ejs", newData)
-  
+         });
+    });
+    app.get('/bargainbook', function(req, res) {
+        let sqlquery = "SELECT * FROM books WHERE price <20;"; // query database to get all the books
+        // execute sql query
+        db.query(sqlquery, (err, result) => {
+            if (err) {
+                res.redirect('./'); 
+            }
+            // res.send(result)
+            let newData = Object.assign({}, shopData, {availableBooks:result});
+            console.log(newData)
+            res.render("list.ejs", newData)
          });
     });
     app.get('/',function(req,res){
@@ -24,10 +36,21 @@ module.exports = function(app, shopData) {
     app.get('/search',function(req,res){
         res.render("search.ejs", shopData);
     });
-    app.get('/search-result', function (req, res) {
-        //searching in the database
-        res.send("You searched for: " + req.query.keyword);
+    app.get('/addbook',function(req,res){
+        res.render("addbook.ejs", shopData);
     });
+    app.get("/search-result", function (req, res) {
+        let sqlquery =
+          "SELECT * FROM books WHERE name LIKE" + "'%" + req.query.keyword + "%'";
+        //this will now use the sql query to find resultes in the database
+        db.query(sqlquery, (err, result) => {
+          if (err) {
+            res.redirect("./");
+          }
+          let newData = Object.assign({}, shopData, { availableBooks: result });
+          res.render("search-result.ejs", newData);
+        });
+      });
     app.get('/register', function (req,res) {
         res.render('register.ejs', shopData);                                                                     
     });                                                                                                 
